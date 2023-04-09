@@ -11,6 +11,9 @@ public class RedPanda extends Animal {
         super("Red Panda", age, weight, size, AnimalType.MAMMAL);
     }
 
+    /**
+     * @return the description of the red panda.
+     */
     @Override
     public String getDescription() {
         return description;

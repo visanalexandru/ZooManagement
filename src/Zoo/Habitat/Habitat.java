@@ -1,9 +1,8 @@
 package Zoo.Habitat;
 
 import Zoo.Animal.Animal;
-import Zoo.Animal.AnimalType;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * This class is the base class for all the habitats in the zoo.
@@ -17,7 +16,7 @@ public class Habitat {
     /**
      * The animals residing in this habitat.
      */
-    private ArrayList<Animal> animals;
+    private final ArrayList<Animal> animals;
 
     /**
      * The climate of the habitat.
@@ -52,8 +51,15 @@ public class Habitat {
     }
 
     /**
+     * @return an unmodifiable list of animals.
+     */
+    public List<Animal> getAnimals() {
+        return Collections.unmodifiableList(animals);
+    }
+
+    /**
      * @param animal the new animal to add to the habitat.
-     * @throws InvalidHabitatException when the given animal is not compatible with this habitat.
+     * @throws InvalidHabitatException if the given animal is not compatible with this habitat.
      */
     public void addAnimal(Animal animal) throws InvalidHabitatException {
         if (!animal.canLiveIn(climate))
@@ -63,5 +69,19 @@ public class Habitat {
                 throw new InvalidHabitatException(animal.getName() + " cannot coexist with " + toCheck.getName());
         }
         animals.add(animal);
+    }
+
+    /**
+     * @param animalId the id of the animal to remove from the habitat.
+     * @throws NoSuchElementException if the given animal id is not found in this habitat.
+     */
+    public void removeAnimal(int animalId) throws NoSuchElementException {
+        for (int i = 0; i < animals.size(); i++) {
+            if (animals.get(i).getId() == animalId) {
+                animals.remove(i);
+                return;
+            }
+        }
+        throw new NoSuchElementException("The animal does not exist in the habitat");
     }
 }
