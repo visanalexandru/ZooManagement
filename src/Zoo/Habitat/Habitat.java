@@ -72,16 +72,9 @@ public class Habitat {
     }
 
     /**
-     * @param animalId the id of the animal to remove from the habitat.
-     * @throws NoSuchElementException if the given animal id is not found in this habitat.
+     * @param animal the animal to remove from the habitat.
      */
-    public void removeAnimal(int animalId) throws NoSuchElementException {
-        for (int i = 0; i < animals.size(); i++) {
-            if (animals.get(i).getId() == animalId) {
-                animals.remove(i);
-                return;
-            }
-        }
-        throw new NoSuchElementException("The animal does not exist in the habitat");
+    public void removeAnimal(Animal animal) {
+        animals.remove(animal);
     }
 }
