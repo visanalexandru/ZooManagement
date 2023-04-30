@@ -5,25 +5,19 @@ import Zoo.Animal.RedPanda;
 import Zoo.Animal.WildBoar;
 import Zoo.Habitat.Climate;
 import Zoo.Habitat.Habitat;
+import Zoo.Purchesable;
 import Zoo.Rng;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This is a singleton class that exposes the functionality of a shop.
  * This is where the zoo can buy new animals and habitats.
  */
 public class Shop {
-    /**
-     * Represents a product in the shop.
-     *
-     * @param price  the price of the object to buy.
-     * @param object the object to buy.
-     */
-    public record Product(int price, Object object) {
-    }
-
 
     /**
      * The number of items in the shop.
@@ -33,34 +27,34 @@ public class Shop {
     /**
      * @return a new randomly generated habitat product.
      */
-    private static Product randomHabitatProduct() {
+    private static Purchesable randomHabitatProduct() {
         // Generate a random number between 0 and 99.
         int random = Rng.getRng().randomNumber(0, 99);
         if (random < 10) {
-            return new Product(300, new Habitat("Tropical Climate Habitat", Climate.TROPICAL));
+            return new Habitat("Tropical Climate Habitat", Climate.TROPICAL);
         } else if (random < 30) {
-            return new Product(200, new Habitat("Dry Climate Habitat", Climate.TROPICAL));
+            return new Habitat("Dry Climate Habitat", Climate.DRY);
         } else if (random < 50) {
-            return new Product(150, new Habitat("Temperate Climate Habitat", Climate.TEMPERATE));
+            return new Habitat("Temperate Climate Habitat", Climate.TEMPERATE);
         } else if (random < 95) {
-            return new Product(300, new Habitat("Continental Climate Habitat", Climate.CONTINENTAL));
+            return new Habitat("Continental Climate Habitat", Climate.CONTINENTAL);
         } else {
-            return new Product(600, new Habitat("Polar Climate Habitat", Climate.POLAR));
+            return new Habitat("Polar Climate Habitat", Climate.POLAR);
         }
     }
 
     /**
      * @return a new randomly generated animal product.
      */
-    private static Product randomAnimalProduct() {
+    private static Purchesable randomAnimalProduct() {
         // Generate a random number between 0 and 99.
         int random = Rng.getRng().randomNumber(0, 99);
         if (random < 5) {
-            return new Product(100, Leopard.randomLeopard());
+            return Leopard.randomLeopard();
         } else if (random < 15) {
-            return new Product(90, RedPanda.randomRedPanda());
+            return RedPanda.randomRedPanda();
         } else {
-            return new Product(30, WildBoar.randomWildBoar());
+            return WildBoar.randomWildBoar();
         }
     }
 
@@ -68,7 +62,7 @@ public class Shop {
     /**
      * @return a new random product.
      */
-    private static Product randomProduct() {
+    private static Purchesable randomProduct() {
         // Generate a random number between 0 and 9.
         int random = Rng.getRng().randomNumber(0, 9);
 
@@ -81,7 +75,7 @@ public class Shop {
     /**
      * The list of products in the shop.
      */
-    private final ArrayList<Product> products;
+    private final ArrayList<Purchesable> products;
 
     /**
      * The instance of the shop.
@@ -113,8 +107,24 @@ public class Shop {
         }
     }
 
-    public ArrayList<Product> getProducts() {
-        return products;
+    /**
+     * Get an unmodifiable list of products.
+     *
+     * @return the list of products.
+     */
+    public List<Purchesable> getProducts() {
+        return Collections.unmodifiableList(products);
+    }
+
+
+    /**
+     * Removes the given product from the list of products.
+     * This method should be called when a product is purchased.
+     *
+     * @param product the product to remove.
+     */
+    public void removeProduct(Purchesable product) {
+        products.remove(product);
     }
 
 }
