@@ -52,10 +52,10 @@ public class Habitat implements Purchesable {
     }
 
     /**
-     * @return an unmodifiable list of animals.
+     * @return the list of animals.
      */
     public List<Animal> getAnimals() {
-        return Collections.unmodifiableList(animals);
+        return animals;
     }
 
     /**

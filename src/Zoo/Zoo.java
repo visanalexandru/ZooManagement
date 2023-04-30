@@ -3,6 +3,8 @@ package Zoo;
 import Zoo.Animal.Animal;
 import Zoo.Habitat.Climate;
 import Zoo.Habitat.Habitat;
+import Zoo.Habitat.InvalidHabitatException;
+import Zoo.Shop.BalanceTooLowException;
 import Zoo.Shop.Shop;
 
 import java.util.*;
@@ -112,6 +114,24 @@ public class Zoo {
     }
 
     /**
+     * Removes an animal from the list of unused animals and places it in
+     * the given habitat.
+     *
+     * @param animal  the unused animal.
+     * @param habitat the habitat.
+     */
+    public void addAnimalToHabitat(Animal animal, Habitat habitat) throws InvalidHabitatException {
+        for (Animal a : unusedAnimals) {
+            if (a == animal) {
+                unusedAnimals.remove(a);
+                habitat.addAnimal(a);
+                break;
+            }
+        }
+    }
+
+
+    /**
      * Removes the habitat from the used habitat list and places it in the list of unused habitats.
      * All the animals inside this habitat will be placed in the unused animal list.
      *
@@ -120,9 +140,10 @@ public class Zoo {
     public void removeHabitat(Habitat habitat) {
         for (Habitat h : usedHabitats) {
             if (h == habitat) {
-                for (Animal animal : h.getAnimals()) {
-                    h.removeAnimal(animal);
-                    unusedAnimals.add(animal);
+                Iterator<Animal> iter = h.getAnimals().iterator();
+                while (iter.hasNext()) {
+                    unusedAnimals.add(iter.next());
+                    iter.remove();
                 }
                 usedHabitats.remove(h);
                 unusedHabitats.add(h);
@@ -189,5 +210,13 @@ public class Zoo {
         if (currentDay % 7 == 0) {
             Shop.getShop().refill();
         }
+    }
+
+    public void purchaseProduct(Purchesable product) throws BalanceTooLowException {
+        if (product.cost() > balance) {
+            throw new BalanceTooLowException("Balance too low.");
+        }
+        Shop.getShop().removeProduct(product);
+        balance -= product.cost();
     }
 }
