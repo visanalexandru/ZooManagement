@@ -1,7 +1,6 @@
 package Zoo;
 
 import Zoo.Animal.Animal;
-import Zoo.Habitat.Climate;
 import Zoo.Habitat.Habitat;
 import Zoo.Habitat.InvalidHabitatException;
 import Zoo.Shop.BalanceTooLowException;
