@@ -1,6 +1,7 @@
 package Zoo;
 
 import Zoo.Animal.Animal;
+import Zoo.Habitat.Climate;
 import Zoo.Habitat.Habitat;
 import Zoo.Habitat.InvalidHabitatException;
 import Zoo.Shop.BalanceTooLowException;
@@ -49,6 +50,9 @@ public class Zoo {
         this.unusedHabitats = new ArrayList<>();
         this.usedHabitats = new ArrayList<>();
         this.unusedAnimals = new ArrayList<>();
+
+
+        this.unusedHabitats.add(new Habitat("Temperate Climate Habitat", Climate.TEMPERATE));
     }
 
     /**
@@ -195,7 +199,10 @@ public class Zoo {
         for (Habitat h : usedHabitats) {
             totalScore += h.getAttractionScore();
         }
-        return (int) Math.log(totalScore);
+        if (totalScore < 1)
+            return 0;
+        // Compute a random gaussian with the mean of log(totalScore) and deviation of 1.
+        return (int) Rng.getRng().randomGaussian((float) Math.log(totalScore), 1);
     }
 
 
@@ -205,9 +212,10 @@ public class Zoo {
      */
     public void nextDay() {
         currentDay++;
+        System.out.println("Got " + numVisitors() + " visitors last day.");
         this.balance += numVisitors() * 3;
         if (currentDay % 7 == 0) {
-            Shop.getShop().refill();
+            Shop.getInstance().refill();
         }
     }
 
@@ -215,7 +223,13 @@ public class Zoo {
         if (product.cost() > balance) {
             throw new BalanceTooLowException("Balance too low.");
         }
-        Shop.getShop().removeProduct(product);
+        Shop.getInstance().removeProduct(product);
         balance -= product.cost();
+
+        if (product instanceof Animal) {
+            unusedAnimals.add((Animal) product);
+        } else if (product instanceof Habitat) {
+            unusedHabitats.add((Habitat) product);
+        }
     }
 }

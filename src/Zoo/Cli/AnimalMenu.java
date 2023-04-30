@@ -55,7 +55,7 @@ public class AnimalMenu extends Menu {
                 System.out.println("1) Remove from this habitat");
                 System.out.println("2) Exit");
             } else if (context == Context.ANIMAL_STORE) {
-                System.out.println("1) Buy this animal");
+                System.out.println("1) Buy this animal, cost: " + animal.cost());
                 System.out.println("2) Exit");
             }
 

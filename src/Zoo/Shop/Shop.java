@@ -85,9 +85,10 @@ public class Shop {
     /**
      * @return the instance of the shop.
      */
-    public static Shop getShop() {
+    public static Shop getInstance() {
         if (shop == null) {
             shop = new Shop();
+            shop.refill();
         }
         return shop;
     }

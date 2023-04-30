@@ -97,7 +97,7 @@ public class HabitatMenu extends Menu {
                     break;
                 }
             } else if (context == Context.HABITAT_STORE) {
-                System.out.println("1) Buy this habitat");
+                System.out.println("1) Buy this habitat, cost: " + habitat.cost());
                 System.out.println("2) Exit");
                 int option = readInt(1, 2);
                 if (option == 1) {

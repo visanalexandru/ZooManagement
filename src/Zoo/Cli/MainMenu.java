@@ -2,8 +2,6 @@ package Zoo.Cli;
 
 import Zoo.Zoo;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-
 /**
  * The main menu in the program.
  */
@@ -26,7 +24,7 @@ public class MainMenu extends Menu {
             if (option == 1) {
                 new HabitatsMenu().render();
             } else if (option == 2) {
-
+                new ShopMenu().render();
             } else if (option == 3) {
 
             } else if (option == 4) {
