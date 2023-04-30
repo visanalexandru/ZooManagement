@@ -26,6 +26,11 @@ public class Leopard extends Animal {
     public static int attractionScore = 30;
 
     /**
+     * The cost of one leopard.
+     */
+    public static int cost = 100;
+
+    /**
      * @return a leopard with a random weight and age.
      */
     public static Leopard randomLeopard() {
@@ -64,4 +69,13 @@ public class Leopard extends Animal {
     public boolean canLiveIn(Climate climate) {
         return climate != Climate.POLAR;
     }
+
+    /**
+     * @return the cost of a leopard.
+     */
+    @Override
+    public int cost() {
+        return cost;
+    }
+
 }

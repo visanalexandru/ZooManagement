@@ -1,13 +1,14 @@
 package Zoo.Habitat;
 
 import Zoo.Animal.Animal;
+import Zoo.Purchesable;
 
 import java.util.*;
 
 /**
  * This class is the base class for all the habitats in the zoo.
  */
-public class Habitat {
+public class Habitat implements Purchesable {
     /**
      * The name of the habitat.
      */
@@ -89,5 +90,26 @@ public class Habitat {
             total += animal.getAttractionScore();
         }
         return total;
+    }
+
+    /**
+     * The cost of the habitat is based on the climate of the habitat.
+     *
+     * @return the cost of the habitat.
+     */
+    @Override
+    public int cost() {
+        if (climate == Climate.TROPICAL) {
+            return 300;
+        } else if (climate == Climate.DRY) {
+            return 200;
+        } else if (climate == Climate.TEMPERATE) {
+            return 150;
+        } else if (climate == Climate.CONTINENTAL) {
+            return 300;
+        } else if (climate == Climate.POLAR) {
+            return 600;
+        }
+        return 0;
     }
 }

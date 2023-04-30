@@ -25,6 +25,11 @@ public class RedPanda extends Animal {
     public static int attractionScore = 80;
 
     /**
+     * The cost of one red panda.
+     */
+    public static int cost = 90;
+
+    /**
      * @return a red panda with a random weight and age.
      */
     public static RedPanda randomRedPanda() {
@@ -65,5 +70,13 @@ public class RedPanda extends Animal {
     @Override
     public boolean canLiveIn(Climate climate) {
         return climate == Climate.TEMPERATE;
+    }
+
+    /**
+     * @return the cost of a red panda.
+     */
+    @Override
+    public int cost() {
+        return cost;
     }
 }

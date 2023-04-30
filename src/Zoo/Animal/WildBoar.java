@@ -8,23 +8,28 @@ public class WildBoar extends Animal {
     /**
      * The average weight of a wild boar is 80 kgs.
      */
-    static int averageWeight = 80000;
+    public static int averageWeight = 80000;
 
     /**
      * Wild boars can live up to 8 years.
      */
-    static int lifeSpan = 2922;
+    public static int lifeSpan = 2922;
 
     /**
      * The average size of a wild boar is 90 cm.
      */
-    static float averageSize = 90;
+    public static float averageSize = 90;
 
 
     /**
      * The attraction score of the wild boar.
      */
-    static int attractionScore = 20;
+    public static int attractionScore = 20;
+
+    /**
+     * The cost of one wild boar.
+     */
+    public static int cost = 30;
 
     /**
      * @return a wild boar with a random weight and age.
@@ -63,6 +68,14 @@ public class WildBoar extends Animal {
     @Override
     public boolean canLiveIn(Climate climate) {
         return climate == Climate.TEMPERATE || climate == Climate.TROPICAL || climate == Climate.CONTINENTAL;
+    }
+
+    /**
+     * @return the cost of a wild boar.
+     */
+    @Override
+    public int cost() {
+        return cost;
     }
 
 }

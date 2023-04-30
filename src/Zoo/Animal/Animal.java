@@ -1,11 +1,12 @@
 package Zoo.Animal;
 
 import Zoo.Habitat.Climate;
+import Zoo.Purchesable;
 
 /**
  * This is the base class for all animal classes.
  **/
-public abstract class Animal {
+public abstract class Animal implements Purchesable {
     /**
      * Used for giving each animal an id.
      **/
