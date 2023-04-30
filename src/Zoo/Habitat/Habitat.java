@@ -77,4 +77,17 @@ public class Habitat {
     public void removeAnimal(Animal animal) {
         animals.remove(animal);
     }
+
+    /**
+     * Compute the sum of the attraction scores of the animals in the habitat.
+     *
+     * @return the sum of the scores of the animals.
+     */
+    public int getAttractionScore() {
+        int total = 0;
+        for (Animal animal : animals) {
+            total += animal.getAttractionScore();
+        }
+        return total;
+    }
 }

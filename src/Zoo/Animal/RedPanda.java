@@ -20,6 +20,11 @@ public class RedPanda extends Animal {
     public static float averageSize = 55;
 
     /**
+     * The attraction score of the red panda.
+     */
+    public static int attractionScore = 80;
+
+    /**
      * @return a red panda with a random weight and age.
      */
     public static RedPanda randomRedPanda() {
@@ -35,7 +40,7 @@ public class RedPanda extends Animal {
                     "They have white markings on their ears, cheeks, muzzles and above their eyes.";
 
     public RedPanda(int age, int weight, float size) {
-        super("Red Panda", age, weight, size, AnimalType.MAMMAL);
+        super("Red Panda", age, weight, size, AnimalType.MAMMAL, attractionScore);
     }
 
     /**

@@ -42,13 +42,22 @@ public abstract class Animal {
      **/
     AnimalType type;
 
-    public Animal(String name, int age, int weight, float size, AnimalType type) {
+
+    /**
+     * The attraction score of the animal is a number that is used to calculate the number
+     * of visitors that come to a zoo in a day. If the attraction score is higher, more people
+     * will visit the zoo.
+     **/
+    private int attractionScore;
+
+    public Animal(String name, int age, int weight, float size, AnimalType type, int attractionScore) {
         this.id = nextId++;
         this.name = name;
         this.age = age;
         this.weight = weight;
         this.size = size;
         this.type = type;
+        this.attractionScore = attractionScore;
     }
 
     /**
@@ -118,6 +127,21 @@ public abstract class Animal {
      * @return the description of the animal
      */
     public abstract String getDescription();
+
+
+    /**
+     * @return the attraction score of the animal.
+     */
+    public int getAttractionScore() {
+        return attractionScore;
+    }
+
+    /**
+     * @param attractionScore the new attraction score of the animal.
+     */
+    public void setAttractionScore(int attractionScore) {
+        this.attractionScore = attractionScore;
+    }
 
 
     /**

@@ -20,6 +20,12 @@ public class WildBoar extends Animal {
      */
     static float averageSize = 90;
 
+
+    /**
+     * The attraction score of the wild boar.
+     */
+    static int attractionScore = 20;
+
     /**
      * @return a wild boar with a random weight and age.
      */
@@ -35,7 +41,7 @@ public class WildBoar extends Animal {
             " The trunk is short and robust, while the hindquarters are comparatively underdeveloped.";
 
     public WildBoar(int age, int weight, float size) {
-        super("Wild Board", age, weight, size, AnimalType.MAMMAL);
+        super("Wild Board", age, weight, size, AnimalType.MAMMAL, attractionScore);
     }
 
     @Override

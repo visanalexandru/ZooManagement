@@ -3,6 +3,7 @@ package Zoo;
 import Zoo.Animal.Animal;
 import Zoo.Habitat.Climate;
 import Zoo.Habitat.Habitat;
+import Zoo.Shop.Shop;
 
 import java.util.*;
 
@@ -43,7 +44,7 @@ public class Zoo {
 
     private Zoo() {
         this.balance = 100;
-        this.currentDay = 0;
+        this.currentDay = 1;
         this.unusedHabitats = new ArrayList<>();
         this.usedHabitats = new ArrayList<>();
         this.unusedAnimals = new ArrayList<>();
@@ -161,5 +162,32 @@ public class Zoo {
      */
     public void addAnimal(Animal animal) {
         unusedAnimals.add(animal);
+    }
+
+    /**
+     * Computes the number of visitors that will come this day to the zoo based on the attraction
+     * scores of the habitats.
+     *
+     * @return the number of visitors in this day.
+     */
+    private int numVisitors() {
+        int totalScore = 0;
+        for (Habitat h : usedHabitats) {
+            totalScore += h.getAttractionScore();
+        }
+        return (int) Math.log(totalScore);
+    }
+
+
+    /**
+     * Increments the day counter and updates the balance based on how many visitors come to
+     * the zoo. Each seven days, refill the shop.
+     */
+    public void nextDay() {
+        currentDay++;
+        this.balance += numVisitors() * 3;
+        if (currentDay % 7 == 0) {
+            Shop.getShop().refill();
+        }
     }
 }

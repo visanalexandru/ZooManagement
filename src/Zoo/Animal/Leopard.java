@@ -21,6 +21,11 @@ public class Leopard extends Animal {
     public static float averageSize = 210;
 
     /**
+     * The attraction score of the leopard.
+     */
+    public static int attractionScore = 30;
+
+    /**
      * @return a leopard with a random weight and age.
      */
     public static Leopard randomLeopard() {
@@ -36,7 +41,7 @@ public class Leopard extends Animal {
                     "It is similar in appearance to the jaguar.";
 
     public Leopard(int age, int weight, float size) {
-        super("Leopard", age, weight, size, AnimalType.MAMMAL);
+        super("Leopard", age, weight, size, AnimalType.MAMMAL, attractionScore);
     }
 
     @Override
