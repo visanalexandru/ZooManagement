@@ -8,47 +8,47 @@ public class AfricanPygmyGoose extends Animal {
     /**
      * The average weight of an african pygmy goose is 300 grams.
      */
-    public static int averageWeight = 300;
+    public static final int AVERAGE_WEIGHT = 300;
 
     /**
      * The average lifespan of an african pygmy is 2000 days.
      */
-    public static int lifeSpan = 2000;
+    public static final int LIFE_SPAN = 2000;
 
     /**
      * The african pygmy goose measures approximately 27 centimeters.
      */
-    public static float averageSize = 27;
+    public static final float AVERAGE_SIZE = 27;
 
     /**
      * The attraction score of the african pygmy goose.
      */
-    public static int attractionScore = 15;
+    public static final int ATTRACTION_SCORE = 15;
 
 
     /**
      * The cost of one african pygmy goose.
      */
-    public static int cost = 10;
+    public static final int COST = 10;
 
     /**
      * @return an african pygmy goose with random characteristics.
      */
     public static AfricanPygmyGoose randomAfricanPygmyGoose() {
         return new AfricanPygmyGoose(
-                Rng.getRng().randomNumber(1, lifeSpan),
-                (int) Rng.getRng().randomGaussian(averageWeight, 1),
-                (float) Rng.getRng().randomGaussian(averageSize, 1));
+                Rng.getRng().randomNumber(1, LIFE_SPAN),
+                (int) Rng.getRng().randomGaussian(AVERAGE_WEIGHT, 1),
+                (float) Rng.getRng().randomGaussian(AVERAGE_SIZE, 1));
     }
 
     /**
      * The description of this animal.
      */
-    static private final String description = "The African pygmy goose is a small and colorful waterfowl species found in sub-Saharan Africa. " +
+    private static final String DESCRIPTION = "The African pygmy goose is a small and colorful waterfowl species found in sub-Saharan Africa. " +
             "It is known for its diminutive size and elegant appearance.";
 
     public AfricanPygmyGoose(int age, int weight, float size) {
-        super("African Pygmy Goose", age, weight, size, AnimalType.BIRD, attractionScore);
+        super("African Pygmy Goose", age, weight, size, AnimalType.BIRD, ATTRACTION_SCORE);
     }
 
     /**
@@ -56,7 +56,7 @@ public class AfricanPygmyGoose extends Animal {
      */
     @Override
     public String getDescription() {
-        return description;
+        return DESCRIPTION;
     }
 
 
@@ -79,6 +79,6 @@ public class AfricanPygmyGoose extends Animal {
 
     @Override
     public int cost() {
-        return cost;
+        return COST;
     }
 }

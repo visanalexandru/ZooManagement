@@ -7,45 +7,45 @@ public class RedPanda extends Animal {
     /**
      * The average weight of the red panda is 5 kgs.
      */
-    public static int averageWeight = 5000;
+    public static final int AVERAGE_WEIGHT = 5000;
 
     /**
      * Red pandas can live up to 13 years.
      */
-    public static int lifeSpan = 4749;
+    public static final int LIFE_SPAN = 4749;
 
     /**
      * The average size of a red panda is 55 cm.
      */
-    public static float averageSize = 55;
+    public static final float AVERAGE_SIZE = 55;
 
     /**
      * The attraction score of the red panda.
      */
-    public static int attractionScore = 80;
+    public static int ATTRACTION_SCORE = 80;
 
     /**
      * The cost of one red panda.
      */
-    public static int cost = 90;
+    public static int COST = 90;
 
     /**
      * @return a red panda with a random weight and age.
      */
     public static RedPanda randomRedPanda() {
-        return new RedPanda(Rng.getRng().randomNumber(1, lifeSpan),
-                (int) Rng.getRng().randomGaussian(averageWeight, 1),
-                (float) Rng.getRng().randomGaussian(averageSize, 1)
+        return new RedPanda(Rng.getRng().randomNumber(1, LIFE_SPAN),
+                (int) Rng.getRng().randomGaussian(AVERAGE_WEIGHT, 1),
+                (float) Rng.getRng().randomGaussian(AVERAGE_SIZE, 1)
         );
     }
 
 
-    static private final String description =
+    private static final String DESCRIPTION =
             "As their name suggests, red pandas’ fur is mostly rusty-red color." +
                     "They have white markings on their ears, cheeks, muzzles and above their eyes.";
 
     public RedPanda(int age, int weight, float size) {
-        super("Red Panda", age, weight, size, AnimalType.MAMMAL, attractionScore);
+        super("Red Panda", age, weight, size, AnimalType.MAMMAL, ATTRACTION_SCORE);
     }
 
     /**
@@ -53,7 +53,7 @@ public class RedPanda extends Animal {
      */
     @Override
     public String getDescription() {
-        return description;
+        return DESCRIPTION;
     }
 
     /**
@@ -77,6 +77,6 @@ public class RedPanda extends Animal {
      */
     @Override
     public int cost() {
-        return cost;
+        return COST;
     }
 }

@@ -10,7 +10,7 @@ public abstract class Animal implements Purchesable {
     /**
      * Used for giving each animal an id.
      **/
-    static private int nextId = 1;
+    private static int nextId = 1;
 
     /**
      * The id of the animal.
@@ -51,7 +51,7 @@ public abstract class Animal implements Purchesable {
      **/
     private int attractionScore;
 
-    public Animal(String name, int age, int weight, float size, AnimalType type, int attractionScore) {
+    protected Animal(String name, int age, int weight, float size, AnimalType type, int attractionScore) {
         this.id = nextId++;
         this.name = name;
         this.age = age;
