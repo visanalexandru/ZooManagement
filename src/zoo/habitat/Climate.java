@@ -1,4 +1,4 @@
-package Zoo.Habitat;
+package zoo.habitat;
 
 public enum Climate {
     TROPICAL,

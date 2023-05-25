@@ -1,7 +1,7 @@
-package Zoo.Animal;
+package zoo.animal;
 
-import Zoo.Habitat.Climate;
-import Zoo.Rng;
+import zoo.habitat.Climate;
+import zoo.Rng;
 
 public class WildBoar extends Animal {
 

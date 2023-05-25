@@ -1,4 +1,4 @@
-package Zoo;
+package zoo;
 
 /**
  * This interface is extended by classes that could be added in a shop.

@@ -1,7 +1,7 @@
-package Zoo.Animal;
+package zoo.animal;
 
-import Zoo.Habitat.Climate;
-import Zoo.Purchesable;
+import zoo.habitat.Climate;
+import zoo.Purchesable;
 
 /**
  * This is the base class for all animal classes.

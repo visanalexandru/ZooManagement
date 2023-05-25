@@ -1,6 +1,6 @@
-package Zoo.Cli;
+package zoo.cli;
 
-import Zoo.Zoo;
+import zoo.Zoo;
 
 /**
  * The main menu in the program.

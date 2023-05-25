@@ -1,6 +1,5 @@
-package Zoo.Cli;
+package zoo.cli;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**

@@ -1,4 +1,4 @@
-package Zoo.Habitat;
+package zoo.habitat;
 
 /**
  * This exception is thrown whenever an animal is placed in an incompatible habitat.

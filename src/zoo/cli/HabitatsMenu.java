@@ -1,8 +1,7 @@
-package Zoo.Cli;
+package zoo.cli;
 
-import Zoo.Animal.Animal;
-import Zoo.Zoo;
-import Zoo.Habitat.Habitat;
+import zoo.Zoo;
+import zoo.habitat.Habitat;
 
 import java.util.List;
 

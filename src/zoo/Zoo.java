@@ -1,11 +1,11 @@
-package Zoo;
+package zoo;
 
-import Zoo.Animal.Animal;
-import Zoo.Habitat.Climate;
-import Zoo.Habitat.Habitat;
-import Zoo.Habitat.InvalidHabitatException;
-import Zoo.Shop.BalanceTooLowException;
-import Zoo.Shop.Shop;
+import zoo.animal.Animal;
+import zoo.habitat.Climate;
+import zoo.habitat.Habitat;
+import zoo.habitat.InvalidHabitatException;
+import zoo.shop.BalanceTooLowException;
+import zoo.shop.Shop;
 
 import java.util.*;
 
@@ -45,7 +45,7 @@ public class Zoo {
     private static Zoo zoo = null;
 
     private Zoo() {
-        this.balance = 100;
+        this.balance = 1000;
         this.currentDay = 1;
         this.unusedHabitats = new ArrayList<>();
         this.usedHabitats = new ArrayList<>();

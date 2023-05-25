@@ -1,7 +1,7 @@
-package Zoo.Habitat;
+package zoo.habitat;
 
-import Zoo.Animal.Animal;
-import Zoo.Purchesable;
+import zoo.animal.Animal;
+import zoo.Purchesable;
 
 import java.util.*;
 

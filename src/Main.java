@@ -1,4 +1,4 @@
-import Zoo.Cli.MainMenu;
+import zoo.cli.MainMenu;
 
 public class Main {
     public static void main(String[] args) {

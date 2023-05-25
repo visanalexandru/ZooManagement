@@ -1,4 +1,4 @@
-package Zoo.Animal;
+package zoo.animal;
 
 public enum AnimalType {
     AMPHIBIAN,

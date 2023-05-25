@@ -1,4 +1,4 @@
-package Zoo.Cli;
+package zoo.cli;
 
 /**
  * Certain menus require a context. For example, the habitat menu renders

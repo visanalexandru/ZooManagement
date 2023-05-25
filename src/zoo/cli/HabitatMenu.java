@@ -1,9 +1,9 @@
-package Zoo.Cli;
+package zoo.cli;
 
-import Zoo.Animal.Animal;
-import Zoo.Habitat.Habitat;
-import Zoo.Shop.BalanceTooLowException;
-import Zoo.Zoo;
+import zoo.animal.Animal;
+import zoo.habitat.Habitat;
+import zoo.shop.BalanceTooLowException;
+import zoo.Zoo;
 
 import java.util.List;
 

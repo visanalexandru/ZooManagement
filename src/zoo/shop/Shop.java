@@ -1,10 +1,10 @@
-package Zoo.Shop;
+package zoo.shop;
 
-import Zoo.Animal.*;
-import Zoo.Habitat.Climate;
-import Zoo.Habitat.Habitat;
-import Zoo.Purchesable;
-import Zoo.Rng;
+import zoo.animal.*;
+import zoo.habitat.Climate;
+import zoo.habitat.Habitat;
+import zoo.Purchesable;
+import zoo.Rng;
 
 
 import java.util.ArrayList;

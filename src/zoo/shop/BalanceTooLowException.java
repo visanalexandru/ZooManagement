@@ -1,4 +1,4 @@
-package Zoo.Shop;
+package zoo.shop;
 
 /**
  * This exception is thrown when the balance is too low to accomodate
