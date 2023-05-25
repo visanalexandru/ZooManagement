@@ -28,7 +28,7 @@ public class Leopard extends Animal {
     /**
      * The cost of one leopard.
      */
-    public static int COST = 100;
+    public static final int COST = 100;
 
     /**
      * @return a leopard with a random weight and age.
@@ -55,7 +55,7 @@ public class Leopard extends Animal {
     }
 
     /**
-     * The leopard prefers medium-sized prey with a body mass ranging from 0–40 kg.
+     * The leopard prefers medium-sized prey with a body mass ranging from 0 to 40 kg.
      */
     @Override
     public boolean hunts(Animal other) {

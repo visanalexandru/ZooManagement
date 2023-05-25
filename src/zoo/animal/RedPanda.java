@@ -22,12 +22,12 @@ public class RedPanda extends Animal {
     /**
      * The attraction score of the red panda.
      */
-    public static int ATTRACTION_SCORE = 80;
+    public static final int ATTRACTION_SCORE = 80;
 
     /**
      * The cost of one red panda.
      */
-    public static int COST = 90;
+    public static final int COST = 90;
 
     /**
      * @return a red panda with a random weight and age.

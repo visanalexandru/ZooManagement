@@ -41,7 +41,7 @@ public abstract class Animal implements Purchesable {
     /**
      * The type of the animal.
      **/
-    AnimalType type;
+    final AnimalType type;
 
 
     /**
