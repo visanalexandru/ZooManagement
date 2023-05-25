@@ -1,5 +1,6 @@
 package Zoo.Shop;
 
+import Zoo.Animal.AfricanPygmyGoose;
 import Zoo.Animal.Leopard;
 import Zoo.Animal.RedPanda;
 import Zoo.Animal.WildBoar;
@@ -53,6 +54,8 @@ public class Shop {
             return Leopard.randomLeopard();
         } else if (random < 15) {
             return RedPanda.randomRedPanda();
+        } else if (random < 30) {
+            return AfricanPygmyGoose.randomAfricanPygmyGoose();
         } else {
             return WildBoar.randomWildBoar();
         }

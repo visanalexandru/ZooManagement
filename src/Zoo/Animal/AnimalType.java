@@ -3,7 +3,7 @@ package Zoo.Animal;
 public enum AnimalType {
     AMPHIBIAN,
     BIRD,
-    INVERTEBRATE,
+    FISH,
     MAMMAL,
     REPTILE,
 }
