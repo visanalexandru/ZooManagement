@@ -59,7 +59,7 @@ public class Leopard extends Animal {
      */
     @Override
     public boolean hunts(Animal other) {
-        return other.getWeight() <= 40000;
+        return other.getWeight() <= 40000 && !(other instanceof Leopard);
     }
 
     /**

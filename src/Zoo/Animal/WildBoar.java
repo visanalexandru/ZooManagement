@@ -59,7 +59,7 @@ public class WildBoar extends Animal {
      */
     @Override
     public boolean hunts(Animal other) {
-        return other.getSize() <= 50;
+        return other.getSize() <= 50 && !(other instanceof WildBoar);
     }
 
     /**

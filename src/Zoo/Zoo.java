@@ -126,8 +126,8 @@ public class Zoo {
     public void addAnimalToHabitat(Animal animal, Habitat habitat) throws InvalidHabitatException {
         for (Animal a : unusedAnimals) {
             if (a == animal) {
-                unusedAnimals.remove(a);
                 habitat.addAnimal(a);
+                unusedAnimals.remove(a);
                 break;
             }
         }
