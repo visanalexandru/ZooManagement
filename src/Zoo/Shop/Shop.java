@@ -1,9 +1,6 @@
 package Zoo.Shop;
 
-import Zoo.Animal.AfricanPygmyGoose;
-import Zoo.Animal.Leopard;
-import Zoo.Animal.RedPanda;
-import Zoo.Animal.WildBoar;
+import Zoo.Animal.*;
 import Zoo.Habitat.Climate;
 import Zoo.Habitat.Habitat;
 import Zoo.Purchesable;
@@ -56,6 +53,8 @@ public class Shop {
             return RedPanda.randomRedPanda();
         } else if (random < 30) {
             return AfricanPygmyGoose.randomAfricanPygmyGoose();
+        } else if (random < 35) {
+            return ChineseAlligator.randomChineseAlligator();
         } else {
             return WildBoar.randomWildBoar();
         }
