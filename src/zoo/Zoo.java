@@ -79,10 +79,31 @@ public class Zoo {
     }
 
     /**
+     * Loads the habitat list from the database.
+     *
+     * @throws SQLException if there were any database errors.
+     */
+    private void loadHabitatsFromDb() throws SQLException {
+        habitats.clear();
+        Database database = Database.getDatabase();
+        Connection conn = database.getConnection();
+
+        // First query for all the habitat ids.
+        PreparedStatement stmt = conn.prepareStatement("SELECT id FROM HABITAT");
+        ResultSet set = stmt.executeQuery();
+
+        while (set.next()) {
+            String id = set.getString("id");
+            habitats.add(Habitat.loadHabitatFromDb(id));
+        }
+    }
+
+    /**
      * Loads the zoo data from the database.
      */
     private void loadFromDb() throws SQLException, MissingDataException {
         loadAttributesFromDb();
+        loadHabitatsFromDb();
     }
 
     private Zoo() {

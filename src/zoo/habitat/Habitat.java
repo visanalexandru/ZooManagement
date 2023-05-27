@@ -6,6 +6,7 @@ import zoo.db.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -37,6 +38,23 @@ public class Habitat implements Purchesable {
      * The climate of the habitat.
      */
     private final Climate climate;
+
+    /**
+     * Loads the habitat with the given id from the database.
+     *
+     * @param id the id of the habitat to load.
+     * @return the habitat with the given id.
+     * @throws SQLException if there were any database errors.
+     */
+    public static Habitat loadHabitatFromDb(String id) throws SQLException {
+        Database database = Database.getDatabase();
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT name,climate,used FROM HABITAT WHERE id = ?");
+        stmt.setString(1, id);
+        ResultSet set = stmt.executeQuery();
+        set.next();
+        return new Habitat(id, set.getString(1), Climate.valueOf(set.getString(2)), set.getBoolean(3), new ArrayList<>());
+    }
 
     /**
      * This constructor is used to easily load habitats from the database.
