@@ -1,12 +1,18 @@
 package zoo;
 
 import zoo.animal.Animal;
+import zoo.db.Database;
+import zoo.db.MissingDataException;
 import zoo.habitat.Climate;
 import zoo.habitat.Habitat;
 import zoo.habitat.InvalidHabitatException;
 import zoo.shop.BalanceTooLowException;
 import zoo.shop.Shop;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -44,15 +50,59 @@ public class Zoo {
      */
     private static Zoo zoo = null;
 
+    /**
+     * @throws SQLException         if there were any database errors.
+     * @throws MissingDataException if any attribute is missing in the database.
+     */
+    private void loadAttributesFromDb() throws SQLException, MissingDataException {
+        Database db = Database.getDatabase();
+        Connection conn = db.getConnection();
+
+        // Load all the zoo attributes from the database.
+        PreparedStatement s = conn.prepareStatement("SELECT * FROM ZOO_ATTRIBUTES");
+        ResultSet set = s.executeQuery();
+
+        HashMap<String, Integer> values = new HashMap<>();
+        while (set.next()) {
+            String attribute = set.getString("name");
+            String value = set.getString("value");
+            values.put(attribute, Integer.parseInt(value));
+        }
+
+        // Now set the attributes or throw an exception if attributes are missing.
+        if (values.containsKey("balance")) {
+            this.balance = values.get("balance");
+        } else {
+            throw new MissingDataException("The balance is missing");
+        }
+
+        if (values.containsKey("currentDay")) {
+            this.currentDay = values.get("currentDay");
+        } else {
+            throw new MissingDataException("The current day is missing");
+        }
+    }
+
+    /**
+     * Loads the zoo data from the database.
+     */
+    private void loadFromDb() throws SQLException, MissingDataException {
+        loadAttributesFromDb();
+    }
+
     private Zoo() {
-        this.balance = 1000;
-        this.currentDay = 1;
         this.unusedHabitats = new ArrayList<>();
         this.usedHabitats = new ArrayList<>();
         this.unusedAnimals = new ArrayList<>();
 
-
-        this.unusedHabitats.add(new Habitat("Temperate Climate Habitat", Climate.TEMPERATE));
+        try {
+            loadFromDb();
+        } catch (Exception exception) {
+            System.out.println("Could not load data from the database, reverting to default values: " + exception);
+            this.balance = 100;
+            this.currentDay = 1;
+            this.unusedHabitats.add(new Habitat("Temperate Climate Habitat", Climate.TEMPERATE));
+        }
     }
 
     /**
@@ -175,7 +225,7 @@ public class Zoo {
      *
      * @param habitat the habitat to add.
      */
-    public void createHabitat(Habitat habitat) {
+    public void addHabitatToUnused(Habitat habitat) {
         unusedHabitats.add(habitat);
     }
 
@@ -184,7 +234,7 @@ public class Zoo {
      *
      * @param animal the animal to add.
      */
-    public void addAnimal(Animal animal) {
+    public void addAnimalToUnused(Animal animal) {
         unusedAnimals.add(animal);
     }
 
@@ -227,9 +277,9 @@ public class Zoo {
         balance -= product.cost();
 
         if (product instanceof Animal) {
-            unusedAnimals.add((Animal) product);
+            addAnimalToUnused((Animal) product);
         } else if (product instanceof Habitat) {
-            unusedHabitats.add((Habitat) product);
+            addHabitatToUnused((Habitat) product);
         }
     }
 }
