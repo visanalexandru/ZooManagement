@@ -10,9 +10,24 @@ import java.util.*;
  */
 public class Habitat implements Purchesable {
     /**
+     * Used for giving each habitat an id.
+     */
+    private static int nextId = 1;
+
+    /**
+     * The id of the habitat.
+     */
+    private final int id;
+
+    /**
      * The name of the habitat.
      */
     private String name;
+
+    /**
+     * True if the habitat is used, else false.
+     */
+    private boolean used;
 
     /**
      * The animals residing in this habitat.
@@ -24,9 +39,22 @@ public class Habitat implements Purchesable {
      */
     private final Climate climate;
 
-    public Habitat(String name, Climate climate) {
+    /**
+     * This constructor is used to easily load habitats from the database.
+     */
+    private Habitat(int id, String name, Climate climate, boolean used, ArrayList<Animal> animals) {
+        this.id = id;
         this.name = name;
         this.climate = climate;
+        this.used = used;
+        this.animals = animals;
+    }
+
+    public Habitat(String name, Climate climate) {
+        this.id = nextId++;
+        this.name = name;
+        this.climate = climate;
+        this.used = false;
         animals = new ArrayList<>();
     }
 
@@ -49,6 +77,20 @@ public class Habitat implements Purchesable {
      */
     public Climate getClimate() {
         return climate;
+    }
+
+    /**
+     * @return true if the habitat is used, else false.
+     */
+    public boolean isUsed() {
+        return used;
+    }
+
+    /**
+     * @param used if the habitat is used or not.
+     */
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     /**

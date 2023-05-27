@@ -51,6 +51,11 @@ public abstract class Animal implements Purchesable {
      **/
     private int attractionScore;
 
+    /**
+     * True if the given animal is used (placed in a habitat) or else false.
+     */
+    private boolean used;
+
     protected Animal(String name, int age, int weight, float size, AnimalType type, int attractionScore) {
         this.id = nextId++;
         this.name = name;
@@ -59,6 +64,7 @@ public abstract class Animal implements Purchesable {
         this.size = size;
         this.type = type;
         this.attractionScore = attractionScore;
+        this.used = false;
     }
 
     /**
@@ -144,6 +150,20 @@ public abstract class Animal implements Purchesable {
         this.attractionScore = attractionScore;
     }
 
+
+    /**
+     * @return true if the animal is used, else false.
+     */
+    public boolean isUsed() {
+        return used;
+    }
+
+    /**
+     * @param used if the animal is used or not.
+     */
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
     /**
      * @param other the other animal.

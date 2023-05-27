@@ -30,20 +30,15 @@ public class Zoo {
     private int currentDay;
 
     /**
-     * The list of used habitats.
+     * The list of habitats.
      */
-    private final ArrayList<Habitat> usedHabitats;
-
-    /**
-     * The list of unused habitats.
-     */
-    private final ArrayList<Habitat> unusedHabitats;
+    private final ArrayList<Habitat> habitats;
 
 
     /**
-     * The list of unused animals. These are animals that have not yet been placed in a habitat.
+     * The list of animals.
      */
-    private final ArrayList<Animal> unusedAnimals;
+    private final ArrayList<Animal> animals;
 
     /**
      * The singleton instance.
@@ -91,9 +86,8 @@ public class Zoo {
     }
 
     private Zoo() {
-        this.unusedHabitats = new ArrayList<>();
-        this.usedHabitats = new ArrayList<>();
-        this.unusedAnimals = new ArrayList<>();
+        this.habitats = new ArrayList<>();
+        this.animals = new ArrayList<>();
 
         try {
             loadFromDb();
@@ -101,7 +95,7 @@ public class Zoo {
             System.out.println("Could not load data from the database, reverting to default values: " + exception.getMessage());
             this.balance = 100;
             this.currentDay = 1;
-            this.unusedHabitats.add(new Habitat("Temperate Climate Habitat", Climate.TEMPERATE));
+            this.habitats.add(new Habitat("Temperate Climate Habitat", Climate.TEMPERATE));
         }
     }
 
@@ -133,75 +127,103 @@ public class Zoo {
      * @return an unmodifiable list of the used habitats.
      */
     public List<Habitat> getUsedHabitats() {
-        return Collections.unmodifiableList(usedHabitats);
+        return habitats.stream().filter(Habitat::isUsed).toList();
     }
 
     /**
      * @return an unmodifiable list of the unused habitats.
      */
     public List<Habitat> getUnusedHabitats() {
-        return Collections.unmodifiableList(unusedHabitats);
+        return habitats.stream().filter(x -> !x.isUsed()).toList();
     }
 
     /**
      * @return an unmodifiable list of unused animals.
      */
     public List<Animal> getUnusedAnimals() {
-        return Collections.unmodifiableList(unusedAnimals);
+        return animals.stream().filter(x -> !x.isUsed()).toList();
     }
 
     /**
-     * Removes an animal from a habitat and places it in the list of unused animals.
+     * Removes an animal from a habitat.
      *
      * @param animal  the animal to remove.
      * @param habitat the habitat the animal currently lives in.
      */
     public void removeAnimalFromHabitat(Animal animal, Habitat habitat) {
-        for (Habitat h : usedHabitats) {
-            if (h == habitat) {
-                h.removeAnimal(animal);
-                unusedAnimals.add(animal);
-                break;
-            }
+        // Check if that habitat exists.
+        if (!habitats.contains(habitat)) {
+            return;
         }
+
+        // It does not make sense to remove an animal from an unused habitat.
+        if (!habitat.isUsed()) {
+            return;
+        }
+
+        // Check if that animal exists in the animal list.
+        if (!animals.contains(animal)) {
+            return;
+        }
+
+        // Check if the animal is already in the animal list.
+        if (!habitat.getAnimals().contains(animal)) {
+            return;
+        }
+
+        // Remove it from the habitat and update the used status.
+        habitat.removeAnimal(animal);
+        animal.setUsed(false);
     }
 
     /**
-     * Removes an animal from the list of unused animals and places it in
-     * the given habitat.
+     * Adds the given animal to the given habitat.
      *
      * @param animal  the unused animal.
      * @param habitat the habitat.
      */
     public void addAnimalToHabitat(Animal animal, Habitat habitat) throws InvalidHabitatException {
-        for (Animal a : unusedAnimals) {
-            if (a == animal) {
-                habitat.addAnimal(a);
-                unusedAnimals.remove(a);
-                break;
-            }
+        // Check if that habitat exists.
+        if (!habitats.contains(habitat)) {
+            return;
         }
+
+        // It does not make sense to add an animal to an unused habitat.
+        if (!habitat.isUsed()) {
+            return;
+        }
+
+        // Check if that animal exists in the animal list.
+        if (!animals.contains(animal)) {
+            return;
+        }
+        // Check if that habitat contains the given animal.
+        if (habitat.getAnimals().contains(animal)) {
+            return;
+        }
+
+        habitat.addAnimal(animal);
+        animal.setUsed(true);
     }
 
 
     /**
-     * Removes the habitat from the used habitat list and places it in the list of unused habitats.
-     * All the animals inside this habitat will be placed in the unused animal list.
+     * Removes the given habitat from the list of used habitats. All the animals contained
+     * will be marked as unused.
      *
      * @param habitat the habitat to remove.
      */
     public void removeHabitat(Habitat habitat) {
-        for (Habitat h : usedHabitats) {
-            if (h == habitat) {
-                Iterator<Animal> iter = h.getAnimals().iterator();
-                while (iter.hasNext()) {
-                    unusedAnimals.add(iter.next());
-                    iter.remove();
-                }
-                usedHabitats.remove(h);
-                unusedHabitats.add(h);
-                break;
-            }
+        // Check if the habitat exists.
+        if (!habitats.contains(habitat)) {
+            return;
+        }
+
+        Iterator<Animal> iter = habitat.getAnimals().iterator();
+        while (iter.hasNext()) {
+            Animal current = iter.next();
+            current.setUsed(false);
+            iter.remove();
         }
     }
 
@@ -211,13 +233,10 @@ public class Zoo {
      * @param habitat the habitat to add.
      */
     public void addHabitat(Habitat habitat) {
-        for (Habitat h : unusedHabitats) {
-            if (h == habitat) {
-                usedHabitats.add(h);
-                unusedHabitats.remove(h);
-                break;
-            }
+        if (!habitats.contains(habitat)) {
+            return;
         }
+        habitat.setUsed(true);
     }
 
     /**
@@ -225,8 +244,8 @@ public class Zoo {
      *
      * @param habitat the habitat to add.
      */
-    public void addHabitatToUnused(Habitat habitat) {
-        unusedHabitats.add(habitat);
+    public void addNewHabitat(Habitat habitat) {
+        habitats.add(habitat);
     }
 
     /**
@@ -234,8 +253,8 @@ public class Zoo {
      *
      * @param animal the animal to add.
      */
-    public void addAnimalToUnused(Animal animal) {
-        unusedAnimals.add(animal);
+    public void addNewAnimal(Animal animal) {
+        animals.add(animal);
     }
 
     /**
@@ -246,8 +265,9 @@ public class Zoo {
      */
     private int numVisitors() {
         int totalScore = 0;
-        for (Habitat h : usedHabitats) {
-            totalScore += h.getAttractionScore();
+        for (Habitat h : habitats) {
+            if (h.isUsed())
+                totalScore += h.getAttractionScore();
         }
         if (totalScore < 1)
             return 0;
@@ -320,9 +340,9 @@ public class Zoo {
         Shop.getInstance().removeProduct(product);
 
         if (product instanceof Animal) {
-            addAnimalToUnused((Animal) product);
+            addNewAnimal((Animal) product);
         } else if (product instanceof Habitat) {
-            addHabitatToUnused((Habitat) product);
+            addNewHabitat((Habitat) product);
         }
     }
 }
