@@ -263,6 +263,7 @@ public class Zoo {
             current.setUsed(false);
             iter.remove();
         }
+        habitat.setUsed(false);
     }
 
     /**

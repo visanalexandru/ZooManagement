@@ -65,9 +65,21 @@ public class Habitat implements Purchesable {
     }
 
     /**
+     * Set a new name to the habitat and update the database to reflect the change.
+     *
      * @param name the new name of the habitat.
      */
     public void setName(String name) {
+        Database database = Database.getDatabase();
+        Connection connection = database.getConnection();
+        try {
+            PreparedStatement stmt = connection.prepareStatement("UPDATE HABITAT SET name= ? WHERE id = ?");
+            stmt.setString(1, name);
+            stmt.setString(2, id);
+            stmt.executeUpdate();
+        } catch (SQLException exception) {
+            System.out.println("Could not update the name in the database: " + exception.getMessage());
+        }
         this.name = name;
     }
 
@@ -93,9 +105,21 @@ public class Habitat implements Purchesable {
     }
 
     /**
+     * Updates the used variable and the database to reflect the change.
+     *
      * @param used if the habitat is used or not.
      */
     public void setUsed(boolean used) {
+        Database database = Database.getDatabase();
+        Connection connection = database.getConnection();
+        try {
+            PreparedStatement stmt = connection.prepareStatement("UPDATE HABITAT SET used = ? WHERE id = ?");
+            stmt.setBoolean(1, used);
+            stmt.setString(2, id);
+            stmt.executeUpdate();
+        } catch (SQLException exception) {
+            System.out.println("Could not update the used flag in the database: " + exception.getMessage());
+        }
         this.used = used;
     }
 
