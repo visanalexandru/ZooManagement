@@ -2,7 +2,11 @@ package zoo.habitat;
 
 import zoo.animal.Animal;
 import zoo.Purchesable;
+import zoo.db.Database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -10,14 +14,9 @@ import java.util.*;
  */
 public class Habitat implements Purchesable {
     /**
-     * Used for giving each habitat an id.
-     */
-    private static int nextId = 1;
-
-    /**
      * The id of the habitat.
      */
-    private final int id;
+    private final String id;
 
     /**
      * The name of the habitat.
@@ -42,7 +41,7 @@ public class Habitat implements Purchesable {
     /**
      * This constructor is used to easily load habitats from the database.
      */
-    private Habitat(int id, String name, Climate climate, boolean used, ArrayList<Animal> animals) {
+    private Habitat(String id, String name, Climate climate, boolean used, ArrayList<Animal> animals) {
         this.id = id;
         this.name = name;
         this.climate = climate;
@@ -51,7 +50,7 @@ public class Habitat implements Purchesable {
     }
 
     public Habitat(String name, Climate climate) {
-        this.id = nextId++;
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.climate = climate;
         this.used = false;
@@ -70,6 +69,13 @@ public class Habitat implements Purchesable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the id of the habitat.
+     */
+    public String getId() {
+        return id;
     }
 
     /**
@@ -153,5 +159,16 @@ public class Habitat implements Purchesable {
             return 600;
         }
         return 0;
+    }
+
+    public void saveToDb() throws SQLException {
+        Database database = Database.getDatabase();
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO HABITAT (id, name, climate, used) VALUES (?,?,?,?)");
+        stmt.setString(1, id);
+        stmt.setString(2, name);
+        stmt.setString(3, climate.toString());
+        stmt.setBoolean(4, used);
+        stmt.executeUpdate();
     }
 }

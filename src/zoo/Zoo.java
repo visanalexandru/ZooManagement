@@ -54,7 +54,7 @@ public class Zoo {
         Connection conn = db.getConnection();
 
         // Load all the zoo attributes from the database.
-        PreparedStatement s = conn.prepareStatement("SELECT * FROM ZOO_ATTRIBUTES");
+        PreparedStatement s = conn.prepareStatement("SELECT * FROM ZOO_ATTRIBUTE");
         ResultSet set = s.executeQuery();
 
         HashMap<String, Integer> values = new HashMap<>();
@@ -117,10 +117,48 @@ public class Zoo {
     }
 
     /**
+     * Set the balance to the given balance and update the database.
+     *
+     * @param newBalance the new balance.
+     */
+    public void setBalance(int newBalance) {
+        balance = newBalance;
+        Database database = Database.getDatabase();
+        Connection conn = database.getConnection();
+        try {
+            PreparedStatement statement = conn.prepareStatement("UPDATE ZOO_ATTRIBUTE SET value = ? WHERE name = ?");
+            statement.setString(1, String.valueOf(newBalance));
+            statement.setString(2, "balance");
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            System.out.println("Could not update the database balance: " + exception.getMessage());
+        }
+    }
+
+    /**
      * @return the number of days since the creation of the zoo.
      */
     public int getCurrentDay() {
         return currentDay;
+    }
+
+    /**
+     * Set the current day to the new day and update the database.
+     *
+     * @param newCurrentDay the new day.
+     */
+    public void setCurrentDay(int newCurrentDay) {
+        currentDay = newCurrentDay;
+        Database database = Database.getDatabase();
+        Connection conn = database.getConnection();
+        try {
+            PreparedStatement statement = conn.prepareStatement("UPDATE ZOO_ATTRIBUTE SET value = ? WHERE name = ?");
+            statement.setString(1, String.valueOf(newCurrentDay));
+            statement.setString(2, "currentDay");
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            System.out.println("Could not update the database current day: " + exception.getMessage());
+        }
     }
 
     /**
@@ -245,7 +283,12 @@ public class Zoo {
      * @param habitat the habitat to add.
      */
     public void addNewHabitat(Habitat habitat) {
-        habitats.add(habitat);
+        try {
+            habitats.add(habitat);
+            habitat.saveToDb();
+        } catch (SQLException exception) {
+            System.out.println("Cannot add new habitat to the database: " + exception.getMessage());
+        }
     }
 
     /**
@@ -275,49 +318,17 @@ public class Zoo {
         return (int) Rng.getRng().randomGaussian((float) Math.log(totalScore), 1);
     }
 
-    /**
-     * Updates the attributes in the database accordingly.
-     *
-     * @throws SQLException if there were any database errors.
-     */
-    public void updateDbAttributes() throws SQLException {
-        Database database = Database.getDatabase();
-        Connection conn = database.getConnection();
-        PreparedStatement statement = conn.prepareStatement("UPDATE ZOO_ATTRIBUTES SET value = ? WHERE name = ?");
-
-        statement.setString(2, "currentDay");
-        statement.setString(1, String.valueOf(currentDay));
-        statement.executeUpdate();
-
-        statement.setString(2, "balance");
-        statement.setString(1, String.valueOf(balance));
-        statement.executeUpdate();
-    }
-
 
     /**
      * Increments the day counter and updates the balance based on how many visitors come to
      * the zoo. Each seven days, refill the shop.
      */
     public void nextDay() {
-        int oldDay = currentDay;
-        int oldBalance = balance;
-
-        currentDay++;
+        setCurrentDay(currentDay + 1);
         System.out.println("Got " + numVisitors() + " visitors last day.");
-        balance += numVisitors() * 3;
+        setBalance(balance + numVisitors() * 3);
         if (currentDay % 7 == 0) {
             Shop.getInstance().refill();
-        }
-
-        // Try update the database.
-        try {
-            updateDbAttributes();
-        } catch (SQLException exception) {
-            // Database error, revert the attributes back to their old values.
-            System.out.println("Could not update the database: " + exception.getMessage());
-            currentDay = oldDay;
-            balance = oldBalance;
         }
     }
 
@@ -325,18 +336,7 @@ public class Zoo {
         if (product.cost() > balance) {
             throw new BalanceTooLowException("Balance too low.");
         }
-        balance -= product.cost();
-
-        // Try update the database.
-        try {
-            updateDbAttributes();
-        } catch (SQLException exception) {
-            // Database error, revert the attributes back to their old values.
-            System.out.println("Could not update the database: " + exception.getMessage());
-            balance += product.cost();
-            return;
-        }
-
+        setBalance(balance - product.cost());
         Shop.getInstance().removeProduct(product);
 
         if (product instanceof Animal) {

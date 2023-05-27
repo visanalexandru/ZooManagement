@@ -3,20 +3,16 @@ package zoo.animal;
 import zoo.habitat.Climate;
 import zoo.Purchesable;
 
+import java.util.UUID;
+
 /**
  * This is the base class for all animal classes.
  **/
 public abstract class Animal implements Purchesable {
     /**
-     * Used for giving each animal an id.
-     **/
-    private static int nextId = 1;
-
-    /**
      * The id of the animal.
      **/
-    private final int id;
-
+    private final String id;
 
     /**
      * The name of the animal.
@@ -57,7 +53,7 @@ public abstract class Animal implements Purchesable {
     private boolean used;
 
     protected Animal(String name, int age, int weight, float size, AnimalType type, int attractionScore) {
-        this.id = nextId++;
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.age = age;
         this.weight = weight;
@@ -70,7 +66,7 @@ public abstract class Animal implements Purchesable {
     /**
      * @return the id of the animal
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
