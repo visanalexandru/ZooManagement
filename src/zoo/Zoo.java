@@ -388,10 +388,8 @@ public class Zoo {
      * @return the number of visitors in this day.
      */
     private int numVisitors() {
-        int totalScore = 0;
-        for (Habitat h : habitats) {
-            if (h.isUsed()) totalScore += h.getAttractionScore();
-        }
+        int totalScore = attractionScore();
+
         if (totalScore < 1) return 0;
         // Compute a random gaussian with the mean of log(totalScore) and deviation of 1.
         return (int) Rng.getRng().randomGaussian((float) Math.log(totalScore), 1);
@@ -425,5 +423,30 @@ public class Zoo {
         } else if (product instanceof Habitat) {
             addNewHabitat((Habitat) product);
         }
+    }
+
+    /**
+     * @return the total number of animals in the zoo.
+     */
+    public int numAnimals() {
+        return animals.size();
+    }
+
+    /**
+     * @return the total number of habitats in the zoo.
+     */
+    public int numHabitats() {
+        return habitats.size();
+    }
+
+    /**
+     * @return the attraction score of the zoo.
+     */
+    public int attractionScore() {
+        int totalScore = 0;
+        for (Habitat h : habitats) {
+            if (h.isUsed()) totalScore += h.getAttractionScore();
+        }
+        return totalScore;
     }
 }
