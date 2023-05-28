@@ -274,4 +274,9 @@ public abstract class Animal implements Purchesable {
      * @return true if this animal can live in the given climate, else false.
      */
     public abstract boolean canLiveIn(Climate climate);
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -278,6 +278,7 @@ public class Zoo {
             return;
         }
 
+        Logger.getLogger().logMessage("Removed the animal: " + animal + " from the habitat: " + habitat + ".");
         // Remove it from the habitat and update the used status.
         habitat.removeAnimal(animal);
         animal.setUsed(false);
@@ -309,6 +310,7 @@ public class Zoo {
             return;
         }
 
+        Logger.getLogger().logMessage("Added the animal: " + animal + " to the habitat: " + habitat + ".");
         habitat.addAnimal(animal);
         animal.setUsed(true);
     }
@@ -325,6 +327,7 @@ public class Zoo {
         if (!habitats.contains(habitat)) {
             return;
         }
+        Logger.getLogger().logMessage("Now the habitat is unused: " + habitat + ".");
 
         List<Animal> animals = new ArrayList<>(habitat.getAnimals());
 
@@ -344,6 +347,7 @@ public class Zoo {
         if (!habitats.contains(habitat)) {
             return;
         }
+        Logger.getLogger().logMessage("Now using the habitat: " + habitat + ".");
         habitat.setUsed(true);
     }
 
@@ -353,6 +357,7 @@ public class Zoo {
      * @param habitat the habitat to add.
      */
     public void addNewHabitat(Habitat habitat) {
+        Logger.getLogger().logMessage("Added a new habitat: " + habitat + ".");
         try {
             habitats.add(habitat);
             habitat.saveToDb();
@@ -367,11 +372,12 @@ public class Zoo {
      * @param animal the animal to add.
      */
     public void addNewAnimal(Animal animal) {
+        Logger.getLogger().logMessage("Added a new animal: " + animal);
         try {
             animals.add(animal);
             animal.saveToDb();
         } catch (SQLException exception) {
-            System.out.println("Cannot add a new animal to the database: " + exception.getMessage());
+            System.out.println("Cannot add a new animal to the database: " + exception.getMessage() + ".");
         }
     }
 
@@ -397,6 +403,7 @@ public class Zoo {
      * the zoo. Each seven days, refill the shop.
      */
     public void nextDay() {
+        Logger.getLogger().logMessage("Moved to the next day.");
         setCurrentDay(currentDay + 1);
         System.out.println("Got " + numVisitors() + " visitors last day.");
         setBalance(balance + numVisitors() * 3);
@@ -409,6 +416,7 @@ public class Zoo {
         if (product.cost() > balance) {
             throw new BalanceTooLowException("Balance too low.");
         }
+        Logger.getLogger().logMessage("Purchased a new product: " + product + " for " + product.cost() + ".");
         setBalance(balance - product.cost());
         Shop.getInstance().removeProduct(product);
 

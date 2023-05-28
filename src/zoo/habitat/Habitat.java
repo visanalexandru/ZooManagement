@@ -1,5 +1,6 @@
 package zoo.habitat;
 
+import zoo.Logger;
 import zoo.animal.Animal;
 import zoo.Purchesable;
 import zoo.db.Database;
@@ -98,6 +99,7 @@ public class Habitat implements Purchesable {
         } catch (SQLException exception) {
             System.out.println("Could not update the name in the database: " + exception.getMessage());
         }
+        Logger.getLogger().logMessage("Renamed habitat: " + this.name + " to: " + name);
         this.name = name;
     }
 
@@ -237,5 +239,10 @@ public class Habitat implements Purchesable {
         stmt.setString(3, climate.toString());
         stmt.setBoolean(4, used);
         stmt.executeUpdate();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
