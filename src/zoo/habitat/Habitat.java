@@ -149,6 +149,8 @@ public class Habitat implements Purchesable {
     }
 
     /**
+     * Adds the new animal in this habitat and updates the database accordingly.
+     *
      * @param animal the new animal to add to the habitat.
      * @throws InvalidHabitatException if the given animal is not compatible with this habitat.
      */
@@ -159,13 +161,36 @@ public class Habitat implements Purchesable {
             if (!animal.canCoexist(toCheck))
                 throw new InvalidHabitatException(animal.getName() + " cannot coexist with " + toCheck.getName());
         }
+
+        Database database = Database.getDatabase();
+        Connection connection = database.getConnection();
+        try {
+            PreparedStatement stmt = connection.prepareStatement("INSERT INTO ANIMAL_IN_HABITAT VALUES(?,?)");
+            stmt.setString(1, animal.getId());
+            stmt.setString(2, this.id);
+            stmt.executeUpdate();
+        } catch (SQLException exception) {
+            System.out.println("Could not insert the new association in the database: " + exception.getMessage());
+        }
         animals.add(animal);
     }
 
     /**
+     * Removes the animal from this habitat and updates the database accordingly.
+     *
      * @param animal the animal to remove from the habitat.
      */
     public void removeAnimal(Animal animal) {
+        Database database = Database.getDatabase();
+        Connection connection = database.getConnection();
+        try {
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM ANIMAL_IN_HABITAT WHERE animal_id = ? AND habitat_id = ?");
+            stmt.setString(1, animal.getId());
+            stmt.setString(2, this.id);
+            stmt.executeUpdate();
+        } catch (SQLException exception) {
+            System.out.println("Could not delete the association from the database: " + exception.getMessage());
+        }
         animals.remove(animal);
     }
 

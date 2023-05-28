@@ -99,6 +99,32 @@ public class Zoo {
     }
 
     /**
+     * This method queries the ANIMAL_IN_HABITAT table so that we load information about
+     * the placement of the animals.
+     *
+     * @throws SQLException if there were any database errors.
+     */
+    private void loadAssociationsFromDb() throws SQLException {
+        Database database = Database.getDatabase();
+        Connection conn = database.getConnection();
+
+        PreparedStatement stmt = conn.prepareStatement("SELECT animal_id,habitat_id FROM ANIMAL_IN_HABITAT");
+        ResultSet set = stmt.executeQuery();
+
+        while (set.next()) {
+            String animalId = set.getString(1);
+            String habitatId = set.getString(2);
+
+            // Find the animal with the given id.
+            Animal toPlace = animals.stream().filter(animal -> animal.getId().equals(animalId)).
+                    findFirst().orElseThrow(() -> new RuntimeException("The given animal id was not found in the list of animals!"));
+            Habitat in = habitats.stream().filter(habitat -> habitat.getId().equals(habitatId)).
+                    findFirst().orElseThrow(() -> new RuntimeException("The given habitat id was not found in the list of habitats!"));
+            in.getAnimals().add(toPlace);
+        }
+    }
+
+    /**
      * Loads the animal list from the database.
      *
      * @throws SQLException if there were any database errors.
@@ -125,6 +151,7 @@ public class Zoo {
         loadAttributesFromDb();
         loadHabitatsFromDb();
         loadAnimalsFromDb();
+        loadAssociationsFromDb();
     }
 
     private Zoo() {
@@ -299,11 +326,11 @@ public class Zoo {
             return;
         }
 
-        Iterator<Animal> iter = habitat.getAnimals().iterator();
-        while (iter.hasNext()) {
-            Animal current = iter.next();
-            current.setUsed(false);
-            iter.remove();
+        List<Animal> animals = new ArrayList<>(habitat.getAnimals());
+
+        for (Animal animal : animals) {
+            habitat.removeAnimal(animal);
+            animal.setUsed(false);
         }
         habitat.setUsed(false);
     }
@@ -357,11 +384,9 @@ public class Zoo {
     private int numVisitors() {
         int totalScore = 0;
         for (Habitat h : habitats) {
-            if (h.isUsed())
-                totalScore += h.getAttractionScore();
+            if (h.isUsed()) totalScore += h.getAttractionScore();
         }
-        if (totalScore < 1)
-            return 0;
+        if (totalScore < 1) return 0;
         // Compute a random gaussian with the mean of log(totalScore) and deviation of 1.
         return (int) Rng.getRng().randomGaussian((float) Math.log(totalScore), 1);
     }
