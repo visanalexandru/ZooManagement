@@ -48,6 +48,10 @@ public class ChineseAlligator extends Animal {
     private static final String DESCRIPTION = "Chinese alligators have a relatively short snout and stout body. " +
             "They possess a dark gray to olive-brown skin color, with a rough texture and prominent scales.";
 
+    protected ChineseAlligator(String id, int age, int weight, float size, boolean used) {
+        super(id, "Chinese Alligator", age, weight, size, AnimalType.REPTILE, ATTRACTION_SCORE, used);
+    }
+
     public ChineseAlligator(int age, int weight, float size) {
         super("Chinese Alligator", age, weight, size, AnimalType.REPTILE, ATTRACTION_SCORE);
     }

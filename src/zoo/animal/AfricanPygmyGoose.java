@@ -47,6 +47,10 @@ public class AfricanPygmyGoose extends Animal {
     private static final String DESCRIPTION = "The African pygmy goose is a small and colorful waterfowl species found in sub-Saharan Africa. " +
             "It is known for its diminutive size and elegant appearance.";
 
+    protected AfricanPygmyGoose(String id, int age, int weight, float size, boolean used) {
+        super(id, "African Pygmy Goose", age, weight, size, AnimalType.BIRD, ATTRACTION_SCORE, used);
+    }
+
     public AfricanPygmyGoose(int age, int weight, float size) {
         super("African Pygmy Goose", age, weight, size, AnimalType.BIRD, ATTRACTION_SCORE);
     }

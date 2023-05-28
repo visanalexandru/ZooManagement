@@ -45,8 +45,12 @@ public class WildBoar extends Animal {
     private static final String DESCRIPTION = "The wild boar is a bulky, massively built suid with short and relatively thin legs." +
             " The trunk is short and robust, while the hindquarters are comparatively underdeveloped.";
 
+    protected WildBoar(String id, int age, int weight, float size, boolean used) {
+        super(id, "Wild Boar", age, weight, size, AnimalType.MAMMAL, ATTRACTION_SCORE, used);
+    }
+
     public WildBoar(int age, int weight, float size) {
-        super("Wild Board", age, weight, size, AnimalType.MAMMAL, ATTRACTION_SCORE);
+        super("Wild Boar", age, weight, size, AnimalType.MAMMAL, ATTRACTION_SCORE);
     }
 
     @Override

@@ -44,6 +44,10 @@ public class RedPanda extends Animal {
             "As their name suggests, red pandas’ fur is mostly rusty-red color." +
                     "They have white markings on their ears, cheeks, muzzles and above their eyes.";
 
+    protected RedPanda(String id, int age, int weight, float size, boolean used) {
+        super(id, "Red Panda", age, weight, size, AnimalType.MAMMAL, ATTRACTION_SCORE, used);
+    }
+
     public RedPanda(int age, int weight, float size) {
         super("Red Panda", age, weight, size, AnimalType.MAMMAL, ATTRACTION_SCORE);
     }

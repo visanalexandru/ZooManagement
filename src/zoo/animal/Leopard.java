@@ -45,6 +45,10 @@ public class Leopard extends Animal {
                     "Its fur is marked with rosettes. " +
                     "It is similar in appearance to the jaguar.";
 
+    protected Leopard(String id, int age, int weight, float size, boolean used) {
+        super(id, "Leopard", age, weight, size, AnimalType.MAMMAL, ATTRACTION_SCORE, used);
+    }
+
     public Leopard(int age, int weight, float size) {
         super("Leopard", age, weight, size, AnimalType.MAMMAL, ATTRACTION_SCORE);
     }

@@ -99,11 +99,32 @@ public class Zoo {
     }
 
     /**
+     * Loads the animal list from the database.
+     *
+     * @throws SQLException if there were any database errors.
+     */
+    private void loadAnimalsFromDb() throws SQLException {
+        animals.clear();
+        Database database = Database.getDatabase();
+        Connection conn = database.getConnection();
+
+        // First query for all the habitat ids.
+        PreparedStatement stmt = conn.prepareStatement("SELECT id FROM ANIMAL");
+        ResultSet set = stmt.executeQuery();
+
+        while (set.next()) {
+            String id = set.getString("id");
+            animals.add(Animal.loadAnimalFromDb(id));
+        }
+    }
+
+    /**
      * Loads the zoo data from the database.
      */
     private void loadFromDb() throws SQLException, MissingDataException {
         loadAttributesFromDb();
         loadHabitatsFromDb();
+        loadAnimalsFromDb();
     }
 
     private Zoo() {
@@ -309,7 +330,7 @@ public class Zoo {
             habitats.add(habitat);
             habitat.saveToDb();
         } catch (SQLException exception) {
-            System.out.println("Cannot add new habitat to the database: " + exception.getMessage());
+            System.out.println("Cannot add a new habitat to the database: " + exception.getMessage());
         }
     }
 
@@ -319,7 +340,12 @@ public class Zoo {
      * @param animal the animal to add.
      */
     public void addNewAnimal(Animal animal) {
-        animals.add(animal);
+        try {
+            animals.add(animal);
+            animal.saveToDb();
+        } catch (SQLException exception) {
+            System.out.println("Cannot add a new animal to the database: " + exception.getMessage());
+        }
     }
 
     /**
